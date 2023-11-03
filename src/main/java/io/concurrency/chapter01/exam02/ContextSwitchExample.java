@@ -1,4 +1,4 @@
-package io.concurrency.chapter01.exam03;
+package io.concurrency.chapter01.exam02;
 
 public class ContextSwitchExample {
     public static void main(String[] args) {

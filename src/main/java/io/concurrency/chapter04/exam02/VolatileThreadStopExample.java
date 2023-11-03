@@ -1,7 +1,5 @@
 package io.concurrency.chapter04.exam02;
 
-import io.reactive.reactiveprogramming.chapter07.exam03.VolatileExample;
-
 public class VolatileThreadStopExample {
     // volatile 키워드 추가
    volatile boolean running = true;

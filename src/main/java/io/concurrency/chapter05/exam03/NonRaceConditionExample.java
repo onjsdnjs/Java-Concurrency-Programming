@@ -1,7 +1,5 @@
 package io.concurrency.chapter05.exam03;
 
-import io.reactive.reactiveprogramming.chapter05.exam02.CpuSyncExample;
-
 public class NonRaceConditionExample {
     private static int sharedResource = 0;
 
@@ -12,7 +10,7 @@ public class NonRaceConditionExample {
         for (int i = 0; i < incrementThreads.length; i++) {
             incrementThreads[i] = new Thread(() -> {
                 for (int j = 0; j < 10000; j++) {
-                    synchronized(CpuSyncExample.class) {
+                    synchronized(NonRaceConditionExample.class) {
                         sharedResource++; // 각 스레드가 공유 데이터에 동시에 접근할 수 없다
                     }
                 }

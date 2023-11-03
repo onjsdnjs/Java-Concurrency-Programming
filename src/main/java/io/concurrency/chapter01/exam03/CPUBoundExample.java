@@ -1,4 +1,4 @@
-package io.concurrency.chapter01.exam04;
+package io.concurrency.chapter01.exam03;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

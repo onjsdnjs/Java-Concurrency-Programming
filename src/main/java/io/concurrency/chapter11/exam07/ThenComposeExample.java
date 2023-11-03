@@ -1,6 +1,5 @@
 package io.concurrency.chapter11.exam07;
 
-import io.reactive.reactiveprogramming.chapter11.exam06.ThenAcceptExample;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;

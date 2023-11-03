@@ -1,7 +1,7 @@
 package io.concurrency.chapter03.exam02;
 
 public class MultiThreadJoinExample {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
         Thread thread1 = new Thread(() -> {
             try {
@@ -26,13 +26,12 @@ public class MultiThreadJoinExample {
         thread1.start();
         thread2.start();
 
-        try {
-            System.out.println("메인 스레드가 다른 스레드들의 완료를 기다립니다.");
-            thread1.join();
-            thread2.join();
-            System.out.println("모든 스레드가 완료되었고 메인 스레드가 계속 진행합니다.");
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        System.out.println("메인 스레드가 다른 스레드의 완료를 기다립니다.");
+
+        thread1.join();
+        thread2.join();
+
+        System.out.println("메인 스레드가 계속 진행합니다");
+
     }
 }

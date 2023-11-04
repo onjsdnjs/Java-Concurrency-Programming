@@ -31,8 +31,8 @@ public class ThreadAliveExample {
 
         // 두 스레드가 모두 완료될 때까지 대기
         while (task1.isAlive() || task2.isAlive()) {
-            System.out.println("작업 스레드 1 상태: " + (task1.isAlive() ? "활성" : "비활성"));
-            System.out.println("작업 스레드 2 상태: " + (task2.isAlive() ? "활성" : "비활성"));
+            System.out.println("작업 스레드 1 상태: " + task1.isAlive());
+            System.out.println("작업 스레드 2 상태: " + task2.isAlive());
 
             try {
                 Thread.sleep(500); // 메인 스레드를 500ms 동안 일시 정지

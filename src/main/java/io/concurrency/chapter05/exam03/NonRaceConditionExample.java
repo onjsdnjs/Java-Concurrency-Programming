@@ -23,7 +23,7 @@ public class NonRaceConditionExample {
             incrementThreads[i].join();
         }
 
-        System.out.println("Expected value = " + (100 * 1000));
+        System.out.println("Expected value = " + (100 * 10000));
         System.out.println("Actual value = " + sharedResource);  // 순차적으로 계산되기 때문에 매번 실행 때 마다 결과 값이 동일하다
     }
 }

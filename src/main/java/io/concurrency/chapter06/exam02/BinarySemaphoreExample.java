@@ -4,11 +4,11 @@ public class BinarySemaphoreExample {
 
     public static void main(String[] args) {
 
-        BinarySemaphore semaphore = new BinarySemaphore();
+        CommonSemaphore semaphore = new BinarySemaphore();
         SharedResource resource = new SharedResource(semaphore);
 
-        Thread t1 = new Thread(resource::increment);
-        Thread t2 = new Thread(resource::increment);
+        Thread t1 = new Thread(resource::sum);
+        Thread t2 = new Thread(resource::sum);
 
         t1.start();
         t2.start();
@@ -20,7 +20,27 @@ public class BinarySemaphoreExample {
             e.printStackTrace();
         }
 
-        System.out.println("최종 값: " + resource.getValue());
+        System.out.println("최종 값: " + resource.getSum());
+    }
+}
+
+class SharedResource {
+    private int value = 0;
+    private CommonSemaphore commonSemaphore;
+
+    public SharedResource(CommonSemaphore commonSemaphore) {
+        this.commonSemaphore = commonSemaphore;
+    }
+
+    public void sum() {
+        commonSemaphore.acquired();
+        for(int i=0; i< 1000000; i++) {
+            value++;
+        }
+        commonSemaphore.release();
+    }
+    public int getSum() {
+        return value;
     }
 }
 

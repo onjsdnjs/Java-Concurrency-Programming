@@ -11,7 +11,7 @@ public class CountingSemaphoreExample {
 
         Thread[] threads = new Thread[threadCount];
         for (int i = 0; i < threadCount; i++) {
-            threads[i] = new Thread(resource::increment);
+            threads[i] = new Thread(resource::sum);
             threads[i].start();
         }
 
@@ -23,7 +23,7 @@ public class CountingSemaphoreExample {
             }
         }
 
-        System.out.println("최종 값: " + resource.getValue());
+        System.out.println("최종 값: " + resource.getSum());
     }
 }
 

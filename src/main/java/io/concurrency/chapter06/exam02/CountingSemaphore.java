@@ -1,10 +1,10 @@
 package io.concurrency.chapter06.exam02;
 
-public class CountingCommonSemaphore implements CommonSemaphore {
+public class CountingSemaphore implements CommonSemaphore {
     private int signal;
     private int permits;
 
-    public CountingCommonSemaphore(int permits) {
+    public CountingSemaphore(int permits) {
         this.permits = permits;
         this.signal = permits;
     }

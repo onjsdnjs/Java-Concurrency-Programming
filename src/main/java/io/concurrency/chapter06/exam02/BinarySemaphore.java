@@ -1,6 +1,6 @@
 package io.concurrency.chapter06.exam02;
 
-public class BinaryCommonSemaphore implements CommonSemaphore {
+public class BinarySemaphore implements CommonSemaphore {
     private int signal = 1;
 
     public synchronized void acquired() {

@@ -21,7 +21,7 @@ public class RaceConditionExample {
             incrementThreads[i].join();
         }
 
-        System.out.println("Expected value = " + (100 * 1000));
+        System.out.println("Expected value = " + (100 * 10000));
         System.out.println("Actual value = " + sharedResource);  // 접근 순서와 시점이 일정하지 않기 때문에 매번 실행 때 마다 결과 값이 달라진다
     }
 }

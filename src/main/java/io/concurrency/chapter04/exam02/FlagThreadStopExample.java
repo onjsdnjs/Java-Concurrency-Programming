@@ -1,6 +1,6 @@
 package io.concurrency.chapter04.exam02;
 
-public class VolatileThreadStopExample {
+public class FlagThreadStopExample {
     // volatile 키워드 추가
    volatile boolean running = true;
 //    boolean running = true;
@@ -30,6 +30,6 @@ public class VolatileThreadStopExample {
     }
 
     public static void main(String[] args) {
-        new VolatileThreadStopExample().volatileTest();
+        new FlagThreadStopExample().volatileTest();
     }
 }

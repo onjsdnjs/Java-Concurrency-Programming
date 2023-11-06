@@ -2,7 +2,7 @@ package io.concurrency.chapter04.exam02;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class AtomicBooleanThreadStopExample {
+public class FlagThreadStopExample2 {
     private AtomicBoolean running = new AtomicBoolean(true);
 //    private boolean running = true;
 
@@ -26,6 +26,6 @@ public class AtomicBooleanThreadStopExample {
     }
 
     public static void main(String[] args) {
-        new AtomicBooleanThreadStopExample().volatileTest();
+        new FlagThreadStopExample2().volatileTest();
     }
 }

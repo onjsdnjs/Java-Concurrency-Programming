@@ -27,8 +27,8 @@ public class ThreadGroupScopeExample {
         subGroupThread.join();
 
         // 이미 생성된 스레드는 변경사항이 적용되지 않는다
-        System.out.println("topGroupThread 우선 순위: " + topGroupThread.getPriority());
-        System.out.println("subGroupThread 우선 순위: " + subGroupThread.getPriority());
+        System.out.println(topGroupThread.getName() + ": " + topGroupThread.getPriority());
+        System.out.println(subGroupThread.getName() + ": " + subGroupThread.getPriority());
 
         Thread userThread1 = new Thread(topGroup, () -> {}, "유저스레드 1");
         Thread userThread2 = new Thread(subGroup, () -> {}, "유저스레드 2");
@@ -40,7 +40,7 @@ public class ThreadGroupScopeExample {
         userThread2.join();
 
         // 최상위 그룹(topGroup) 설정을 따라간다
-        System.out.println("userThread1 우선 순위: " + userThread1.getPriority());
-        System.out.println("userThread2 우선 순위: " + userThread2.getPriority());
+        System.out.println(userThread1.getName() + ": " + userThread1.getPriority());
+        System.out.println(userThread2.getName() + ": " + userThread2.getPriority());
     }
 }

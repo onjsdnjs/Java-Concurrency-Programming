@@ -4,7 +4,7 @@ public class ThreadSafeLocalVariableExample {
 
 //    int localSum = 0;
 public void printNumbers(int plus) {
-    // 지역 변수로 정의된 변수. 각 스레드는 이 변수의 독립된 복사본을 가짐.
+    // 지역 변수, 매개 변수로 정의된 변수. 각 스레드는 이 변수의 독립된 복사본을 가짐.
     int localSum = 0;
 
     for (int i = 1; i <= 5; i++) {

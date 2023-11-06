@@ -1,4 +1,4 @@
-package io.concurrency.chapter06.exam03;
+package io.concurrency.chapter06.exam02;
 
 class OrderedSemaphore {
     private int signal = 0;  // 순서를 관리하는 신호 변수

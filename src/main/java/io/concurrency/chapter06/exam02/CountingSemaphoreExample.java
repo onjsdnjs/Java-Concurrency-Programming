@@ -1,4 +1,4 @@
-package io.concurrency.chapter06.exam03;
+package io.concurrency.chapter06.exam02;
 
 public class CountingSemaphoreExample {
     public static void main(String[] args) {

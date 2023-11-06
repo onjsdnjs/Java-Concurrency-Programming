@@ -1,4 +1,4 @@
-package io.concurrency.chapter06.exam04;
+package io.concurrency.chapter06.exam03;
 
 public class ConditionSynchronizationExample {
     private boolean isAvailable = false;

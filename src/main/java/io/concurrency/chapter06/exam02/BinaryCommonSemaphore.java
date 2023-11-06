@@ -1,4 +1,4 @@
-package io.concurrency.chapter06.exam03;
+package io.concurrency.chapter06.exam02;
 
 public class BinaryCommonSemaphore implements CommonSemaphore {
     private int signal = 1;

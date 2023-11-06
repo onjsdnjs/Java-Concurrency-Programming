@@ -1,4 +1,4 @@
-package io.concurrency.chapter06.exam02;
+package io.concurrency.chapter06.exam01;
 
 class Mutex {
     private boolean lock = false;

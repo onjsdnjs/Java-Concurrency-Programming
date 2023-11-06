@@ -29,8 +29,6 @@ public class ThreadPoolThreadLocalExample {
         for (int i = 0; i < 5; i++) {
             executor.submit(() -> {
                 System.out.println(Thread.currentThread().getName() + ": " + threadLocal.get()); // 예상치 못한 값 출력 가능
-                // 작업 종료 후 값을 지워야 함
-//                threadLocal.remove();
             });
         }
 

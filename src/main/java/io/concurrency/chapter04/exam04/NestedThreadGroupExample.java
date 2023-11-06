@@ -1,6 +1,6 @@
 package io.concurrency.chapter04.exam04;
 
-public class NestedThreadGroupExample {
+public class    NestedThreadGroupExample {
     public static void main(String[] args) throws InterruptedException {
 
         // 최상위 스레드 그룹 생성

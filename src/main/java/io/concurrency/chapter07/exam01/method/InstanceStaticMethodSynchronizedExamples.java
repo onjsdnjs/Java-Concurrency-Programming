@@ -15,19 +15,19 @@ public class InstanceStaticMethodSynchronizedExamples {
     }
 
     public static void main(String[] args) {
-        InstanceStaticMethodSynchronizedExamples example1 = new InstanceStaticMethodSynchronizedExamples();
-        InstanceStaticMethodSynchronizedExamples example2 = new InstanceStaticMethodSynchronizedExamples();
+        InstanceStaticMethodSynchronizedExamples example = new InstanceStaticMethodSynchronizedExamples();
+
 
         // 인스턴스 메서드 동기화 테스트
         Thread t1 = new Thread(() -> {
             for (int i = 0; i < 100; i++) {
-                example1.incrementInstanceCounter();
+                example.incrementInstanceCounter();
             }
         }, "스레드1");
 
         Thread t2 = new Thread(() -> {
             for (int i = 0; i < 100; i++) {
-                example2.incrementInstanceCounter();
+                example.incrementInstanceCounter();
             }
         }, "스레드2");
 
@@ -58,8 +58,7 @@ public class InstanceStaticMethodSynchronizedExamples {
             e.printStackTrace();
         }
 
-        System.out.println("최종 값: " + example1.instanceCounter);
-        System.out.println("최종 값: " + example2.instanceCounter);
+        System.out.println("최종 값: " + example.instanceCounter);
         System.out.println("최종 값: " + staticCounter);
     }
 }

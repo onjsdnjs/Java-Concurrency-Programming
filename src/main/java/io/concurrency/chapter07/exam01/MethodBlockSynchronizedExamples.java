@@ -89,7 +89,7 @@ public class MethodBlockSynchronizedExamples {
             for (int i = 0; i < 100000; i++) {
                 example.incrementWithClass2();
             }
-        }, "스레드5");
+        }, "스레드6");
 
         t1.start();
         t2.start();

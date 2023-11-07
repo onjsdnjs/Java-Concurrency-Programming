@@ -25,12 +25,14 @@ public class InstanceMethodSynchronizedExamples2 {
         Thread t1 = new Thread(() -> {
             for (int i = 0; i < 100000; i++) {
                 counter1.increment();
+                counter2.decrement();
             }
         }, "스레드1");
 
         Thread t2 = new Thread(() -> {
             for (int i = 0; i < 100000; i++) {
-                counter2.decrement();
+                counter2.increment();
+                counter1.decrement();
             }
         }, "스레드2");
 

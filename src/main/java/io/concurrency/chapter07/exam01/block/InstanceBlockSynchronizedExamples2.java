@@ -1,74 +1,71 @@
 package io.concurrency.chapter07.exam01.block;
 
 public class InstanceBlockSynchronizedExamples2 {
-    private int count1 = 0;
-    private int count2 = 0;
 
-    // 별도의 객체를 생성하여 모니터로 사용
-    private final Object lockObject = new Object();
+    private int count = 0;
 
+    private Object lockObject = new Object();
 
-    // 특정 객체의 블록에 synchronized 키워드를 사용하는 방법
-    public void incrementBlockThis() {
-        synchronized (this) { // this 가 모니터가 된다
-            count1++;
-            System.out.println(Thread.currentThread().getName() + " - 블록 동기화로 증가: " + count1);
+    public void incrementBlockThis(){
+        synchronized (this){
+            count++;
+            System.out.println(Thread.currentThread().getName() + " 가 This 에 의해 블록 동기화 함 : " + count);
         }
     }
-
-    // 별도의 객체를 사용하여 동기화하는 방법
-    public void incrementBlockKLockObject() {
-        synchronized (lockObject) { // Object 가 모니터가 된다
-            count2++;
-            System.out.println(Thread.currentThread().getName() + " - 별도 객체 동기화로 증가: " + count2);
+    public void incrementBlockLockObject() {
+        synchronized (lockObject){
+            count++;
+            System.out.println(Thread.currentThread().getName() + " 가 LockObject 에 의해 블록 동기화 함 : " + count);
         }
     }
+    public static void main(String[] args){
 
-    public static void main(String[] args) {
         InstanceBlockSynchronizedExamples2 example1 = new InstanceBlockSynchronizedExamples2();
         InstanceBlockSynchronizedExamples2 example2 = new InstanceBlockSynchronizedExamples2();
 
-        Thread t1 = new Thread(() -> {
-            for (int i = 0; i < 100000; i++) {
+        Thread thread1 = new Thread(() -> {
+            for (int i = 0; i < 1000000; i++) {
                 example1.incrementBlockThis();
             }
-        }, "스레드1");
+        },"스레드 1");
 
-        Thread t2 = new Thread(() -> {
-            for (int i = 0; i < 100000; i++) {
+        Thread thread2 = new Thread(() -> {
+            for (int i = 0; i < 1000000; i++) {
                 example2.incrementBlockThis();
             }
-        }, "스레드2");
+        },"스레드 2");
 
-        Thread t3 = new Thread(() -> {
-            for (int i = 0; i < 100000; i++) {
-                example1.incrementBlockKLockObject();
+        Thread thread3 = new Thread(() -> {
+            for (int i = 0; i < 1000000; i++) {
+                example1.incrementBlockLockObject();
             }
-        }, "스레드3");
+        },"스레드 3");
 
-        Thread t4 = new Thread(() -> {
-            for (int i = 0; i < 100000; i++) {
-                example2.incrementBlockKLockObject();
+        Thread thread4 = new Thread(() -> {
+            for (int i = 0; i < 1000000; i++) {
+                example2.incrementBlockLockObject();
             }
-        }, "스레드4");
+        },"스레드 4");
 
-        t1.start();
-        t2.start();
-        t3.start();
-        t4.start();
+        thread1.start();
+        thread2.start();
+        thread3.start();
+        thread4.start();
 
         try {
-            t1.join();
-            t2.join();
-            t3.join();
-            t4.join();
-            System.out.println("example1.count1: " + example1.count1);
-            System.out.println("example1.count2: " + example1.count2);
-            System.out.println("example2.count1: " + example2.count1);
-            System.out.println("example2.count2: " + example2.count2);
+            thread1.join();
+            thread2.join();
+            thread3.join();
+            thread4.join();
+
+            System.out.println("최종값:"  + example1.count);
+            System.out.println("최종값:"  + example2.count);
 
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
+
+
+
     }
 }

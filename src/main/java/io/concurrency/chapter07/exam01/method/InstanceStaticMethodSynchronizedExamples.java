@@ -1,65 +1,62 @@
 package io.concurrency.chapter07.exam01.method;
 
 public class InstanceStaticMethodSynchronizedExamples {
-    private static int staticCounter = 0;
-    private int instanceCounter = 0;
 
-    public synchronized void incrementInstanceCounter() { // this 가 모니터가 된다
-        instanceCounter++;
-        staticCounter++;
-        System.out.println(Thread.currentThread().getName() + "가 인스턴스 카운터를 증가시켰습니다. 현재 값: " + instanceCounter);
+    private static int staticCount = 0;
+    private int instanceCount = 0;
+
+    public synchronized void incrementInstanceCount(){  // this 가 모니터가 된다
+        instanceCount++;
+        staticCount++;
+        System.out.println(Thread.currentThread().getName() + " 가 인스턴스 카운터를 증가시켰습니다. 현재 값:" + instanceCount);
     }
-
-    public static synchronized void incrementStaticCounter() { // InstanceStaticMethodSynchronizedExamples 가 모니터가 된다
-        staticCounter++;
-        System.out.println(Thread.currentThread().getName() + "가 정적 카운터를 증가시켰습니다. 현재 값: " + staticCounter);
+    public static synchronized void incrementStaticCount(){ // InstanceStaticMethodSynchronizedExamples 가 모니터가 된다
+        staticCount++;
+        System.out.println(Thread.currentThread().getName() + " 가 장적 카운터를 증가시켰습니다. 현재 값:" + staticCount);
     }
 
     public static void main(String[] args) {
         InstanceStaticMethodSynchronizedExamples example = new InstanceStaticMethodSynchronizedExamples();
 
-
-        // 인스턴스 메서드 동기화 테스트
-        Thread t1 = new Thread(() -> {
-            for (int i = 0; i < 100; i++) {
-                example.incrementInstanceCounter();
+        Thread thread1 = new Thread(() -> {
+            for (int i = 0; i < 1000000; i++) {
+                example.incrementInstanceCount();
             }
-        }, "스레드1");
+        },"스레드 1");
 
-        Thread t2 = new Thread(() -> {
-            for (int i = 0; i < 100; i++) {
-                example.incrementInstanceCounter();
+        Thread thread2 = new Thread(() -> {
+            for (int i = 0; i < 1000000; i++) {
+                example.incrementInstanceCount();
             }
-        }, "스레드2");
+        },"스레드 2");
 
-        // 정적 메서드 동기화 테스트
-        Thread t3 = new Thread(() -> {
-            for (int i = 0; i < 100; i++) {
-                InstanceStaticMethodSynchronizedExamples.incrementStaticCounter();
+        Thread thread3 = new Thread(() -> {
+            for (int i = 0; i < 1000000; i++) {
+                InstanceStaticMethodSynchronizedExamples.incrementStaticCount();
             }
-        }, "스레드3");
+        },"스레드 3");
 
-        Thread t4 = new Thread(() -> {
-            for (int i = 0; i < 100; i++) {
-                InstanceStaticMethodSynchronizedExamples.incrementStaticCounter();
+        Thread thread4 = new Thread(() -> {
+            for (int i = 0; i < 1000000; i++) {
+                InstanceStaticMethodSynchronizedExamples.incrementStaticCount();
             }
-        }, "스레드4");
+        },"스레드 4");
 
-        t1.start();
-        t2.start();
-        t3.start();
-        t4.start();
+        thread1.start();
+        thread2.start();
+        thread3.start();
+        thread4.start();
 
         try {
-            t1.join();
-            t2.join();
-            t3.join();
-            t4.join();
+            thread1.join();
+            thread2.join();
+            thread3.join();
+            thread4.join();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
-        System.out.println("최종 값: " + example.instanceCounter);
-        System.out.println("최종 값: " + staticCounter);
+        System.out.println("최종값:"  + example.instanceCount);
+        System.out.println("최종값:"  + staticCount);
     }
 }

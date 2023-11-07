@@ -1,47 +1,46 @@
 package io.concurrency.chapter07.exam01.method;
 
 public class StaticMethodSynchronizedExamples {
+
     private static int count = 0;
 
-    public static synchronized void increment() { // StaticMethodSynchronizedExamples 가 모니터가 된다
+    public static synchronized void increment(){
         count++;
-        System.out.println(Thread.currentThread().getName() + "가 증가시켰습니다. 현재 값: " + count);
+        System.out.println(Thread.currentThread().getName() + " 가 증가시켰습니다. 현재 값:" + count);
     }
-
-    public static synchronized void decrement() { // StaticMethodSynchronizedExamples 가 모니터가 된다
+    public static synchronized void decrement(){
         count--;
-        System.out.println(Thread.currentThread().getName() + "가 감소시켰습니다. 현재 값: " + count);
+        System.out.println(Thread.currentThread().getName() + " 가 감소시켰습니다. 현재 값:" + count);
     }
 
-    public static int getValue() {
+    public static int getCount(){
         return count;
     }
 
     public static void main(String[] args) {
 
-        // 스레드가 동기화된 메서드를 동시에 호출하려고 시도
-        Thread t1 = new Thread(() -> {
-            for (int i = 0; i < 100000; i++) {
+        Thread thread1 = new Thread(() -> {
+            for (int i = 0; i < 1000000; i++) {
                 StaticMethodSynchronizedExamples.increment();
             }
-        }, "스레드1");
+        });
 
-        Thread t2 = new Thread(() -> {
-            for (int i = 0; i < 100000; i++) {
+        Thread thread2 = new Thread(() -> {
+            for (int i = 0; i < 1000000; i++) {
                 StaticMethodSynchronizedExamples.decrement();
             }
-        }, "스레드2");
+        });
 
-        t1.start();
-        t2.start();
+        thread1.start();
+        thread2.start();
 
         try {
-            t1.join();
-            t2.join();
+            thread1.join();
+            thread2.join();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
-        System.out.println("최종 값: " + StaticMethodSynchronizedExamples.getValue());
+        System.out.println("최종값:"  + StaticMethodSynchronizedExamples.getCount());
     }
 }

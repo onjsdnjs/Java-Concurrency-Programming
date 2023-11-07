@@ -8,18 +8,18 @@ public class MethodBlockSynchronizedExamples {
     // 별도의 객체를 생성하여 모니터로 사용
     private final Object lockObject = new Object();
 
-    public synchronized void incrementMethodSync() {// this 가 모니터가 된다
+    public synchronized void incrementInstanceMethod() {// this 가 모니터가 된다
         count++;
         System.out.println(Thread.currentThread().getName() + " - 메서드 동기화로 증가: " + count);
     }
 
-    public static synchronized void incrementStaticSync() {// MethodBlockSynchronizedExamples 가 모니터가 된다
+    public static synchronized void incrementStaticMethod() {// MethodBlockSynchronizedExamples 가 모니터가 된다
         count++;
         System.out.println(Thread.currentThread().getName() + " - 메서드 동기화로 증가: " + count);
     }
 
     // 특정 객체의 블록에 synchronized 키워드를 사용하는 방법
-    public void incrementBlockSync() {
+    public void incrementInstanceBlockThis() {
         synchronized (this) { // this 가 모니터가 된다
             count++;
             System.out.println(Thread.currentThread().getName() + " - 블록 동기화로 증가: " + count);
@@ -27,7 +27,7 @@ public class MethodBlockSynchronizedExamples {
     }
 
     // 별도의 객체를 사용하여 동기화하는 방법
-    public void incrementWithLockObject() {
+    public void incrementInstanceBlockLockObject() {
         synchronized (lockObject) { // Object 가 모니터가 된다
             count++;
             System.out.println(Thread.currentThread().getName() + " - 별도 객체 동기화로 증가: " + count);
@@ -35,7 +35,7 @@ public class MethodBlockSynchronizedExamples {
     }
 
     // 별도의 클래스를 사용하여 동기화하는 방법
-    public void incrementWithClass() {
+    public static void incrementStaticBlockClass() {
         synchronized (MethodBlockSynchronizedExamples.class) { // MethodBlockSynchronizedExamples 가 모니터가 된다
             count++;
             System.out.println(Thread.currentThread().getName() + " - 별도 클래스 동기화로 증가: " + count);
@@ -43,7 +43,7 @@ public class MethodBlockSynchronizedExamples {
     }
 
     // 별도의 클래스를 사용하여 동기화하는 방법
-    public void incrementWithClass2() {
+    public static void incrementStaticBlockOtherClass() {
         synchronized (MethodBlock.class) { // MethodBlock 가 모니터가 된다
             count++;
             System.out.println(Thread.currentThread().getName() + " - 별도 클래스 동기화로 증가: " + count);
@@ -57,37 +57,37 @@ public class MethodBlockSynchronizedExamples {
 
         Thread t1 = new Thread(() -> {
             for (int i = 0; i < 100000; i++) {
-                example.incrementMethodSync();
+                example.incrementInstanceMethod();
             }
         }, "스레드1");
 
         Thread t2 = new Thread(() -> {
             for (int i = 0; i < 100000; i++) {
-                example.incrementStaticSync();
+                example.incrementInstanceBlockThis();
             }
         }, "스레드2");
 
         Thread t3 = new Thread(() -> {
             for (int i = 0; i < 100000; i++) {
-                example.incrementBlockSync();
+                example.incrementStaticBlockClass();
             }
         }, "스레드3");
 
         Thread t4 = new Thread(() -> {
             for (int i = 0; i < 100000; i++) {
-                example.incrementWithLockObject();
+                example.incrementInstanceBlockLockObject();
             }
         }, "스레드4");
 
         Thread t5 = new Thread(() -> {
             for (int i = 0; i < 100000; i++) {
-                example.incrementWithClass();
+                example.incrementStaticMethod();
             }
         }, "스레드5");
 
         Thread t6 = new Thread(() -> {
             for (int i = 0; i < 100000; i++) {
-                example.incrementWithClass2();
+                example.incrementStaticBlockOtherClass();
             }
         }, "스레드6");
 

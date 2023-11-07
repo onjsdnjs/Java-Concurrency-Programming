@@ -6,6 +6,7 @@ public class InstanceStaticMethodSynchronizedExamples {
 
     public synchronized void incrementInstanceCounter() { // this 가 모니터가 된다
         instanceCounter++;
+        staticCounter++;
         System.out.println(Thread.currentThread().getName() + "가 인스턴스 카운터를 증가시켰습니다. 현재 값: " + instanceCounter);
     }
 

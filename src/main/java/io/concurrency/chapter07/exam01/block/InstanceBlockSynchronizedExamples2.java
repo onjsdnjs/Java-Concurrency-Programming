@@ -9,7 +9,7 @@ public class InstanceBlockSynchronizedExamples2 {
 
 
     // 특정 객체의 블록에 synchronized 키워드를 사용하는 방법
-    public void incrementBlockSync() {
+    public void incrementBlockThis() {
         synchronized (this) { // this 가 모니터가 된다
             count1++;
             System.out.println(Thread.currentThread().getName() + " - 블록 동기화로 증가: " + count1);
@@ -17,7 +17,7 @@ public class InstanceBlockSynchronizedExamples2 {
     }
 
     // 별도의 객체를 사용하여 동기화하는 방법
-    public void incrementWithLockObject() {
+    public void incrementBlockKLockObject() {
         synchronized (lockObject) { // Object 가 모니터가 된다
             count2++;
             System.out.println(Thread.currentThread().getName() + " - 별도 객체 동기화로 증가: " + count2);
@@ -30,25 +30,25 @@ public class InstanceBlockSynchronizedExamples2 {
 
         Thread t1 = new Thread(() -> {
             for (int i = 0; i < 100000; i++) {
-                example1.incrementBlockSync();
+                example1.incrementBlockThis();
             }
         }, "스레드1");
 
         Thread t2 = new Thread(() -> {
             for (int i = 0; i < 100000; i++) {
-                example2.incrementBlockSync();
+                example2.incrementBlockThis();
             }
         }, "스레드2");
 
         Thread t3 = new Thread(() -> {
             for (int i = 0; i < 100000; i++) {
-                example1.incrementWithLockObject();
+                example1.incrementBlockKLockObject();
             }
         }, "스레드3");
 
         Thread t4 = new Thread(() -> {
             for (int i = 0; i < 100000; i++) {
-                example2.incrementWithLockObject();
+                example2.incrementBlockKLockObject();
             }
         }, "스레드4");
 

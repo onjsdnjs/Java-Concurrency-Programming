@@ -4,7 +4,6 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class ReentrantReadWriteLockUpgradeExample {
-    private int data;
     private final ReadWriteLock lock = new ReentrantReadWriteLock();
 
     public void failedUpgradeAttempt() {

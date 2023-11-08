@@ -10,10 +10,10 @@ public class TryLockWithTimeoutExample {
 
         Thread thread1 = new Thread(() -> {
             try {
-                if (lock.tryLock(2, TimeUnit.SECONDS)) { // 최대 2초 동안 락을 시도
+                if (lock.tryLock(2, TimeUnit.SECONDS)) {
                     try {
                         System.out.println("스레드 1이 락을 획득했습니다");
-                        Thread.sleep(10000); // 스레드 1이 락을 보유 (시간 초과)
+                        Thread.sleep(3000); // 스레드 1이 락을 보유 (시간 초과)
                     } finally {
                         lock.unlock();
                         System.out.println("스레드 1이 락을 해제했습니다");
@@ -29,7 +29,7 @@ public class TryLockWithTimeoutExample {
 
         Thread thread2 = new Thread(() -> {
             try {
-                if (lock.tryLock(4, TimeUnit.SECONDS)) { // 최대 2초 동안 락을 시도
+                if (lock.tryLock(2, TimeUnit.SECONDS)) {
                     try {
                         System.out.println("스레드 2가 락을 획득했습니다");
                     } finally {

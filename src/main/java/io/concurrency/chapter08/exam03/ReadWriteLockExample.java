@@ -9,24 +9,11 @@ public class ReadWriteLockExample {
         ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
         SharedData sharedData = new SharedData();
 
-        // 읽기 작업을 수행하는 스레드 1
+        // 읽기 작업을 수행하는 스레드
         Thread readerThread1 = new Thread(() -> {
             readWriteLock.readLock().lock();
             try {
                 System.out.println("리더 스레드 1이 데이터를 읽고 있습니다. 데이터: " + sharedData.getData());
-                Thread.sleep(1000); // 읽기 작업 수행
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } finally {
-                readWriteLock.readLock().unlock();
-            }
-        });
-
-        // 읽기 작업을 수행하는 스레드 2
-        Thread readerThread2 = new Thread(() -> {
-            readWriteLock.readLock().lock();
-            try {
-                System.out.println("리더 스레드 2가 데이터를 읽고 있습니다. 데이터: " + sharedData.getData());
                 Thread.sleep(1000); // 읽기 작업 수행
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -51,7 +38,6 @@ public class ReadWriteLockExample {
         });
 
         readerThread1.start();
-        readerThread2.start();
         writerThread.start();
     }
 
@@ -67,3 +53,4 @@ public class ReadWriteLockExample {
         }
     }
 }
+

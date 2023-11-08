@@ -10,13 +10,12 @@ public class ReadWriteLockWriteLockExample {
         ReadWriteLock lock = new ReentrantReadWriteLock();
         BankAccount account = new BankAccount(lock);
 
-        // 여러 스레드가 잔액 조회
-        for (int i = 0; i < 2; i++) {
-            new Thread(() -> {
-                int balance = account.getBalance();
-                System.out.println("현재 잔액: " + balance);
-            }).start();
-        }
+        // 읽기 스레드가 잔액 조회
+        new Thread(() -> {
+            int balance = account.getBalance();
+            System.out.println("현재 잔액: " + balance);
+        }).start();
+
 
         // 여러 스레드가 출금
         for (int i = 0; i < 10; i++) {
@@ -27,10 +26,11 @@ public class ReadWriteLockWriteLockExample {
             }).start();
         }
 
-        Thread.sleep(2000);
-
-        // 총 잔액
-        System.out.println("총 잔액: " + account.getBalance());
+        // 읽기 스레드가 잔액 조회
+        new Thread(() -> {
+            int balance = account.getBalance();
+            System.out.println("현재 잔액: " + balance);
+        }).start();
 
     }
 
@@ -41,7 +41,7 @@ public class ReadWriteLockWriteLockExample {
         public BankAccount(ReadWriteLock lock) {
             this.lock = lock;
             this.balances = new HashMap<>();
-            balances.put("account1", 1000); // 초기 잔액 1000 설정
+            balances.put("account1", 10000); // 초기 잔액 1000 설정
         }
 
         public int getBalance() {
@@ -62,8 +62,13 @@ public class ReadWriteLockWriteLockExample {
                     balances.put("account1", currentBalance);
                     System.out.println("출금 성공: " + amount);
 
-//                } else {
-//                    System.out.println("출금 실패: 잔액 부족");
+                } else {
+                    System.out.println("출금 실패: 잔액 부족");
+                }
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
             } finally {
                 lock.writeLock().unlock();
@@ -71,5 +76,3 @@ public class ReadWriteLockWriteLockExample {
         }
     }
 }
-
-

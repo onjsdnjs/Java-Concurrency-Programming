@@ -66,7 +66,7 @@ public class ReadWriteLockWriteLockExample {
                     System.out.println("출금 실패: 잔액 부족");
                 }
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(50);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }

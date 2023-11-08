@@ -12,8 +12,6 @@ public class LockInterruptiblyExample {
                 lock.lockInterruptibly(); // 락을 시도하며, 인터럽트가 들어오면 중단
                 try {
                     System.out.println("스레드 1이 락을 획득했습니다");
-                    Thread.sleep(2000); // 스레드 1이 잠시 락을 보유
-                    System.out.println("스레드 1이 작업을 진행중입니다.");
                 } finally {
                     lock.unlock();
                     System.out.println("스레드 1이 락을 해제했습니다");
@@ -38,11 +36,11 @@ public class LockInterruptiblyExample {
         });
 
         thread1.start();
+        thread1.interrupt();
         thread2.start();
 
         try {
             Thread.sleep(500);
-            thread1.interrupt();
             thread1.join();
             thread2.join();
         } catch (InterruptedException e) {

@@ -1,5 +1,6 @@
 package io.concurrency.chapter08.exam03;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -44,7 +45,7 @@ class BankAccount {
 
     public BankAccount(ReadWriteLock lock) {
         this.lock = lock;
-        this.balances = new ConcurrentHashMap<>();
+        this.balances = new HashMap<>();
         balances.put("account1", 0);
     }
 

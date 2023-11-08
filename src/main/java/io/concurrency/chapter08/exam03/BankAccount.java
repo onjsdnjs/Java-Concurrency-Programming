@@ -8,11 +8,11 @@ public class BankAccount {
     private final ReadWriteLock lock;
     private Map<String, Integer> balance;
 
-    public BankAccount(ReadWriteLock lock) {
+    public BankAccount(ReadWriteLock lock, int amount) {
 
         this.lock = lock;
         balance = new HashMap<>();
-        balance.put("account1", 0);
+        balance.put("account1", amount);
     }
 
     public int getBalance(){
@@ -38,6 +38,27 @@ public class BankAccount {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } finally {
+            lock.writeLock().unlock();
+        }
+    }
+
+    public void withdraw(int amount){
+        lock.writeLock().lock();
+        try{
+            int currentBalance = balance.get("account1");
+            if(currentBalance >= amount){
+                currentBalance -= amount;
+                balance.put("account1", currentBalance);
+                System.out.println(Thread.currentThread().getName() + " - 출금 성공");
+            }else{
+                System.out.println(Thread.currentThread().getName() + " - 출금 실패, 잔액부족");
+            }
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }finally {
             lock.writeLock().unlock();
         }
     }

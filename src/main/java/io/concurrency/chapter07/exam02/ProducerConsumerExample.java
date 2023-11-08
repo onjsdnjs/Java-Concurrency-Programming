@@ -45,50 +45,32 @@ public class ProducerConsumerExample {
         SharedQueue sharedQueue = new SharedQueue();
 
         // 생산자 스레드
-        Thread producer1 = new Thread(() -> {
+        Thread producer = new Thread(() -> {
             try {
-                for (int i = 0; i < 10; i++) {
+                for (int i = 0; i < 20; i++) {
                     sharedQueue.produce(i);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        });
+        },"생산자");
 
-        Thread producer2 = new Thread(() -> {
-            try {
-                for (int i = 10; i < 20; i++) {
-                    sharedQueue.produce(i);
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
+
 
         // 소비자 스레드
-        Thread consumer1 = new Thread(() -> {
+        Thread consumer = new Thread(() -> {
             try {
-                for (int i = 0; i < 10; i++) {
+                for (int i = 0; i < 20; i++) {
                     sharedQueue.consume();
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        });
+        },"소비자");
 
-        Thread consumer2 = new Thread(() -> {
-            try {
-                for (int i = 0; i < 10; i++) {
-                    sharedQueue.consume();
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
 
-        producer1.start();
-        producer2.start();
-        consumer1.start();
-        consumer2.start();
+
+        producer.start();
+        consumer.start();
     }
 }

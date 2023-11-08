@@ -1,4 +1,4 @@
-package io.concurrency.chapter08.exam01;
+package io.concurrency.chapter08.exam02;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;

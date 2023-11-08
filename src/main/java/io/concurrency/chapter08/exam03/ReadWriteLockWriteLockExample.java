@@ -1,4 +1,4 @@
-package io.concurrency.chapter08.exam02;
+package io.concurrency.chapter08.exam03;
 
 import java.util.HashMap;
 import java.util.Map;

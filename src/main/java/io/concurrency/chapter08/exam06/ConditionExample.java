@@ -1,4 +1,4 @@
-package io.concurrency.chapter08.exam03;
+package io.concurrency.chapter08.exam06;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;

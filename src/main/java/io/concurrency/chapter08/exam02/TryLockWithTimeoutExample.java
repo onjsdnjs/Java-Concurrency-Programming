@@ -1,4 +1,4 @@
-package io.concurrency.chapter08.exam01;
+package io.concurrency.chapter08.exam02;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;

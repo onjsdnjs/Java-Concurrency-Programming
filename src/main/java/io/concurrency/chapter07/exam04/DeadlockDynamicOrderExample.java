@@ -19,10 +19,10 @@ public class DeadlockDynamicOrderExample {
     private static void methodWithLocks(Object lockA, Object lockB) {
 
         synchronized (lockA) {
-            System.out.println(Thread.currentThread().getName() + ": lockA 획득");
+            System.out.println(Thread.currentThread().getName() + ":  " + lockA + " 획득");
 
             synchronized (lockB) {
-                System.out.println(Thread.currentThread().getName() + ": lockB 획득");
+                System.out.println(Thread.currentThread().getName() + ":  " + lockB + " 획득");
             }
         }
     }

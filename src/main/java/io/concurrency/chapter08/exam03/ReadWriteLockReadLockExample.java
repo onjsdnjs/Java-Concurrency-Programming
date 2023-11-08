@@ -14,7 +14,7 @@ public class ReadWriteLockReadLockExample {
         for (int i = 0; i < 10; i++) {
             new Thread(() -> {
                 int balance = account.getBalance();
-                System.out.println("현재 잔액: " + balance);
+                System.out.println(Thread.currentThread().getName() + " - 현재 잔액: " + balance);
             }).start();
         }
 
@@ -23,7 +23,8 @@ public class ReadWriteLockReadLockExample {
             new Thread(() -> {
                 int depositAmount = (int) (Math.random() * 1000);
                 account.deposit(depositAmount);
-                System.out.println("입금: " + depositAmount);
+                System.out.println(Thread.currentThread().getName() + " - 입금: " + depositAmount);
+
             }).start();
         }
 
@@ -31,7 +32,7 @@ public class ReadWriteLockReadLockExample {
         for (int i = 0; i < 10; i++) {
             new Thread(() -> {
                 int balance = account.getBalance();
-                System.out.println("현재 잔액: " + balance);
+                System.out.println(Thread.currentThread().getName() + " - 현재 잔액: " + balance);
             }).start();
         }
     }
@@ -50,6 +51,11 @@ class BankAccount {
     public int getBalance() {
         lock.readLock().lock();
         try {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
             return balances.get("account1");
         } finally {
             lock.readLock().unlock();
@@ -59,6 +65,11 @@ class BankAccount {
     public void deposit(int amount) {
         lock.writeLock().lock();
         try {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
             int currentBalance = balances.get("account1");
             currentBalance += amount;
             balances.put("account1", currentBalance);

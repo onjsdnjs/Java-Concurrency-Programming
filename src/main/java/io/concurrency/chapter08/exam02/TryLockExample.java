@@ -26,6 +26,7 @@ public class TryLockExample {
                     try {
                         Thread.sleep(1000); // 1초 대기 후 다시 시도
                     } catch (InterruptedException e) {
+
                         e.printStackTrace();
                     }
                 }

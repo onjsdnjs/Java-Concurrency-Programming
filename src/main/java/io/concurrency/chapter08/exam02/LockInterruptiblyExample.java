@@ -36,8 +36,9 @@ public class LockInterruptiblyExample {
         });
 
         thread1.start();
-        thread1.interrupt();
         thread2.start();
+        thread1.interrupt();
+//        thread2.interrupt();
 
         try {
             Thread.sleep(500);

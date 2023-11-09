@@ -10,7 +10,7 @@ public class MultiThreadCASExample {
 
         for (int i = 0; i < NUM_THREADS; i++) {
             threads[i] = new Thread(() -> {
-                for (int j = 0; j < 10000; j++) {
+                for (int j = 0; j < 100000; j++) {
                     int expectedValue, newValue;
                     do {
                         expectedValue = value.get();

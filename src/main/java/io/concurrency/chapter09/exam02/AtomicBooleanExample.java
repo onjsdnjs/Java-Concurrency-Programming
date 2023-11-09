@@ -14,6 +14,11 @@ public class AtomicBooleanExample {
                 // Critical section
                 System.out.println("Thread 1 - Critical Section");
                 flag.set(false); // 이 구문이 없으면 계속 대기한다
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -25,6 +30,11 @@ public class AtomicBooleanExample {
                 // Critical section
                 System.out.println("Thread 2 - Critical Section");
                 flag.set(false); // 이 구문이 없으면 계속 대기한다
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 

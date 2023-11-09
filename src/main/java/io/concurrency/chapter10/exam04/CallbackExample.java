@@ -5,38 +5,33 @@ import java.util.concurrent.Executors;
 
 public class CallbackExample {
 
-    // 콜백 인터 페이스
-    interface Callback {
-        void onCompletion(int result);
+    interface Callback{
+        void onComplete(int result);
     }
-    public static void main(String[] args) {
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
 
-        // 비동기 작업 시작
-        executorService.execute(() -> {
-            // 비동기 작업 시뮬레이션
+    public static void main(String[] args) {
+
+        ExecutorService executorService = Executors.newFixedThreadPool(1);
+
+        executorService.execute(()->{
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+                throw new RuntimeException(e);
             }
             int result = 42;
 
-            // 작업 완료 후 콜백 호출
             Callback callback = new MyCallback();
-            callback.onCompletion(result);
+            callback.onComplete(result);
         });
 
         System.out.println("비동기 작업 시작");
-
-        // 스레드 풀 종료
-        executorService.shutdown();
     }
 
-    // 콜백 구현 클래스
-    static class MyCallback implements Callback {
+    static class MyCallback implements Callback{
+
         @Override
-        public void onCompletion(int result) {
+        public void onComplete(int result) {
             System.out.println("비동기 작업 결과: " + result);
         }
     }

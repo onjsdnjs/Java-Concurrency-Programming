@@ -6,22 +6,30 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 public class FutureExample {
-    public static void main(String[] args) throws InterruptedException, ExecutionException {
+    public static void main(String[] args) {
 
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        ExecutorService executorService = Executors.newFixedThreadPool(1);
 
         Future<Integer> future = executorService.submit(() -> {
-            // 비동기 작업 시뮬레이션
-            Thread.sleep(1000);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
             return 42;
         });
-
         System.out.println("비동기 작업 시작");
+        try {
+            int result = future.get();
+            System.out.println("비동기 작업결과: " + result);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
 
-        // 작업이 완료될 때까지 대기하고 결과를 가져옴
-        int result = future.get();
-        System.out.println("비동기 작업 결과: " + result);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        }
 
         executorService.shutdown();
+
     }
 }

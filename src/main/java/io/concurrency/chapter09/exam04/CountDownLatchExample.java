@@ -4,28 +4,32 @@ import java.util.concurrent.CountDownLatch;
 
 public class CountDownLatchExample {
     public static void main(String[] args) throws InterruptedException {
-        int numThreads = 5;
-        CountDownLatch startSignal = new CountDownLatch(1); // 시작 신호
-        CountDownLatch doneSignal = new CountDownLatch(numThreads); // 완료 신호
 
-        for (int i = 0; i < numThreads; i++) {
+        int numThreads = 5;
+        CountDownLatch startSignal = new CountDownLatch(1);
+        CountDownLatch doneSignal = new CountDownLatch(5);
+
+        for (int i = 0; i <numThreads; i++) {
             new Thread(new Worker(startSignal, doneSignal)).start();
         }
 
-        Thread.sleep(3000); // 잠시 대기
-        startSignal.countDown(); // 특정 작업이 완료되었음을 알리고 모든 스레드를 시작시킴
-        System.out.println("startSignal is countDown");
+        Thread.sleep(3000);
+        startSignal.countDown();
 
-        doneSignal.await(); // 모든 스레드의 작업이 완료될 때까지 대기
+        System.out.println("시작신호를 알렸습니다.");
 
-        System.out.println("All threads have completed their tasks.");
+        doneSignal.await();
+
+        System.out.println("모든 스레드의 작업이 완료되었습니다.");
     }
 
-    static class Worker implements Runnable {
+    static class Worker implements Runnable{
+
         private final CountDownLatch startSignal;
         private final CountDownLatch doneSignal;
 
-        public Worker(CountDownLatch startSignal, CountDownLatch doneSignal) {
+        public Worker(CountDownLatch startSignal, CountDownLatch doneSignal){
+
             this.startSignal = startSignal;
             this.doneSignal = doneSignal;
         }
@@ -33,15 +37,16 @@ public class CountDownLatchExample {
         @Override
         public void run() {
             try {
-                startSignal.await(); // 시작 신호를 기다림
-                // 스레드의 작업을 수행
-                System.out.println("Thread " + Thread.currentThread().getId() + " is working.");
-                Thread.sleep(3000); // 잠시 대기
-                System.out.println("Thread " + Thread.currentThread().getId() + " has completed its task.");
+                startSignal.await();
+
+                System.out.println(Thread.currentThread().getName() + " 가 작업을 수행하고 있습니다.");
+                Thread.sleep(1000);
+                System.out.println(Thread.currentThread().getName() + " 가 작업을 완료했습니다.");
+
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             } finally {
-                doneSignal.countDown(); // 작업이 완료됨을 알림
+                doneSignal.countDown();
             }
         }
     }

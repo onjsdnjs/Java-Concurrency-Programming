@@ -25,11 +25,11 @@ public class AtomicIntegerFieldUpdaterAPIExample {
         fieldUpdater2 = AtomicReferenceFieldUpdater.newUpdater(MyClass.class, String.class, "field2");
 
         MyClass instance = new MyClass();
-        fieldUpdater1.set(instance, 42); // 원자성 보장
+        fieldUpdater1.addAndGet(instance, 42); // 원자성 보장
         fieldUpdater2.compareAndSet(instance, null, "myField");  // 원자성 보장
 
 
-        System.out.println("Updated value: " + instance.getField1()); // 43
+        System.out.println("Updated value: " + instance.getField1()); // 42
         System.out.println("Updated value: " + instance.getField2()); // myField
     }
 }

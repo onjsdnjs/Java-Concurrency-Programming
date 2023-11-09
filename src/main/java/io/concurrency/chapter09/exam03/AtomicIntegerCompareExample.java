@@ -13,14 +13,15 @@ public class AtomicIntegerCompareExample {
         }
 
         public String getField2() {
-            String currentValue = field2.get();
-            if (currentValue == null) {
-                if (field2.compareAndSet(null, "myField")) {
-                    return "myField";
-                } else {
-                    currentValue = field2.get();
-                }
+
+            String currentValue;
+
+            if (field2.compareAndSet(null, "myField")) {
+                return "myField";
+            } else {
+                currentValue = field2.get();
             }
+
             return currentValue;
         }
     }

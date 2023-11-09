@@ -3,48 +3,50 @@ package io.concurrency.chapter09.exam02;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class AtomicReferenceExample {
+
     public static void main(String[] args) {
 
         User user1 = new User("Alice", 25);
         User user2 = new User("Bob", 30);
 
-        AtomicReference<User> atomicReference = new AtomicReference<>(user1);
+        AtomicReference<User> atomicReference = new AtomicReference<>(user2);
 
         Thread thread1 = new Thread(() -> {
-            User updatedUser = new User("Carol", 28);
-            boolean success = atomicReference.compareAndSet(user1, updatedUser);
+            User updateUser = new User("Carol", 40);
+            boolean success = atomicReference.compareAndSet(user1, updateUser);
             if (success) {
-                System.out.println("Thread 1 updated user: " + updatedUser);
+                System.out.println("스레드 1 이 " + updateUser + " 로 변경에 성공했습니다.");
             } else {
-                System.out.println("Thread 1 failed to update user.");
+                System.out.println("스레드 1 이 " + updateUser + " 로 변경에 실패했습니다.");
             }
         });
 
         Thread thread2 = new Thread(() -> {
-            User updatedUser = new User("David", 35);
-            boolean success = atomicReference.compareAndSet(user2, updatedUser);
+            User updateUser = new User("David", 50);
+            boolean success = atomicReference.compareAndSet(user2, updateUser);
             if (success) {
-                System.out.println("Thread 2 updated user: " + updatedUser);
+                System.out.println("스레드 2 가 " + updateUser + " 로 변경에 성공했습니다.");
             } else {
-                System.out.println("Thread 2 failed to update user.");
+                System.out.println("스레드 2 가 " + updateUser + " 로 변경에 실패했습니다.");
             }
         });
 
-        thread1.start();
         thread2.start();
+        thread1.start();
 
         try {
             thread1.join();
             thread2.join();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
-        System.out.println("Final user: " + atomicReference.get());
+        System.out.println("Final User: " + atomicReference.get());
+
     }
 }
 
-class User {
+class User{
     private String name;
     private int age;
 
@@ -57,16 +59,8 @@ class User {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getAge() {
         return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
     }
 
     @Override

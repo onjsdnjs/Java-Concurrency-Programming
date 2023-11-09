@@ -19,9 +19,9 @@ public class AtomicIntegerGetAndUpdateExample {
                 });
 
                 if (updatedBalance < 0) {
-                    System.out.println("잔고 부족으로 출금 실패");
+                    System.out.println(Thread.currentThread().getName() + " : 잔고 부족으로 출금 실패");
                 } else {
-                    System.out.println("출금 후 잔고: " + updatedBalance);
+                    System.out.println(Thread.currentThread().getName() + " : 출금 후 잔고: " + updatedBalance);
                 }
             }).start();
         }

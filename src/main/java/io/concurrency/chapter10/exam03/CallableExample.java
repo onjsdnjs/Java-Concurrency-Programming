@@ -1,12 +1,9 @@
 package io.concurrency.chapter10.exam03;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 public class CallableExample {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         // 스레드 풀 생성
         ExecutorService executorService = Executors.newFixedThreadPool(1);
 
@@ -16,9 +13,17 @@ public class CallableExample {
             return 42;
         };
         Future<Integer> future = executorService.submit(callableTask);
-
         // Callable 작업 결과 가져 오기
-        int result = future.get();
+        int result = 0;
+        try {
+            result = future.get();
+
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        }
         System.out.println("Callable 작업 결과: " + result);
 
         // 스레드 풀 종료

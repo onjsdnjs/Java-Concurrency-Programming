@@ -10,17 +10,23 @@ public class InvokeAllExample {
         ExecutorService executor = Executors.newFixedThreadPool(3);
         List<Callable<Integer>> tasks = new ArrayList<>();
 
-        tasks.add(() -> 1);
-        tasks.add(() -> 2);
+        tasks.add(() -> {
+            Thread.sleep(3000);
+            return 1;
+        });
+        tasks.add(() -> {
+            Thread.sleep(2000);
+            return 1;
+        });
         tasks.add(() -> {
             throw new RuntimeException("invokeAll");
         });
 
+        long started = 0;
         try {
+            started = System.currentTimeMillis();
             List<Future<Integer>> results = executor.invokeAll(tasks);
-
             for (Future<Integer> future : results) {
-                boolean done = future.isDone();
                 try {
                     Integer value = future.get();
                     System.out.println("result: " + value);
@@ -39,5 +45,7 @@ public class InvokeAllExample {
         }finally {
             executor.shutdown();
         }
+
+        System.out.println("총 소요시간:"  + (System.currentTimeMillis() - started ));
     }
 }

@@ -13,14 +13,10 @@ public class ScheduleRunnableExample {
             System.out.println("작업이 한번 실행 됩니다");
         };
 
-        long delay = 2; // 2초 후에 작업 실행
-        TimeUnit unit = TimeUnit.SECONDS;
-
         // 주어진 시간 후에 작업을 실행
-        scheduler.schedule(task, delay, unit);
+        scheduler.schedule(task, 2, TimeUnit.SECONDS);
 
         try {
-            // 프로그램이 종료되지 않도록 대기
             Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();

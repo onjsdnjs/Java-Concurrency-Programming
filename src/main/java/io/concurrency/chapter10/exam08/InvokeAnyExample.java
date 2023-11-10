@@ -9,7 +9,6 @@ import java.util.concurrent.Executors;
 
 public class InvokeAnyExample {
     public static void main(String[] args) {
-
         ExecutorService executor = Executors.newFixedThreadPool(3);
         List<Callable<String>> tasks = new ArrayList<>();
 
@@ -19,7 +18,7 @@ public class InvokeAnyExample {
         });
         tasks.add(() -> {
             Thread.sleep(1000);
-            return "Task 2";
+            throw new RuntimeException("error");
         });
         tasks.add(() -> {
             Thread.sleep(3000);

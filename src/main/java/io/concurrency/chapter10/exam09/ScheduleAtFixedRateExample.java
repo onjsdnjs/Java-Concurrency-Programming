@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 public class ScheduleAtFixedRateExample {
     public static void main(String[] args) {
-        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(6);
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(3);
         Runnable task = () -> {
             try {
                 Thread.sleep(2000);

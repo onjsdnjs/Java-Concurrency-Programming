@@ -21,16 +21,24 @@ public class FutureCancelExample {
         // 작업을 제출 하고 Future 객체를 받음
         Future<Integer> future = executorService.submit(callableTask);
 
+        /*while (!future.isDone()) {
+            System.out.println("Waiting for the result...");
+            Thread.sleep(500);
+        }*/
+
         // 작업 취소 시도, 결과가 완료된 경우는 효과가 없다
         boolean cancel = future.cancel(true);
 
-        try {
-            Integer result = future.get();
-            System.out.println("Result: " + result);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+//        if (!future.isCancelled()) {
+            try {
+                Integer result = future.get();
+                System.out.println("Result: " + result);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+//        } else {
+//            System.out.println("Task was cancelled.");
+//        }
         executorService.shutdown();
     }
 }

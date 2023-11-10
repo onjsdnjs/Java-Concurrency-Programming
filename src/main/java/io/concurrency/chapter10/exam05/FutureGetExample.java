@@ -21,7 +21,6 @@ public class FutureGetExample {
             return 42;
         };
 
-        // 작업을 제출 하고 Future 객체를 받음
         Future<Integer> future = executorService.submit(callableTask);
 
         try {

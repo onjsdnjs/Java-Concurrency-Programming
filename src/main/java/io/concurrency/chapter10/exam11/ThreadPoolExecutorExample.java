@@ -17,7 +17,7 @@ public class ThreadPoolExecutorExample {
         for (int i = 0; i < taskNum; i++) {
             final int taskId = i;
             executor.execute(() -> {
-                System.out.println("Task " + taskId + " is executing on " + Thread.currentThread().getName());
+                System.out.println(Thread.currentThread().getName() + " 가 태스크 " + taskId + " 을 실행하고 있습니다.");
             });
         }
 

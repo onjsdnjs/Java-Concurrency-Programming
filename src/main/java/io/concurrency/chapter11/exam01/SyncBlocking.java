@@ -13,7 +13,7 @@ public class SyncBlocking {
 
         try {
             Thread.sleep(3000); // 3초 대기
-            System.out.println("syncCall1 종료");
+            System.out.println("작업 종료");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

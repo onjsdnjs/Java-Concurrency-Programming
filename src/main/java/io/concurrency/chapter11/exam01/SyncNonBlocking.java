@@ -18,7 +18,8 @@ public class SyncNonBlocking {
         // 동기로 전환, 다른 스레드 작업 여부에 관심을 가짐
         while (!future.isDone()) {
             try {
-                Thread.sleep(3000);
+                Thread.sleep(500);
+                System.out.println("작업이 완료되었는지 확인합니다");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -26,7 +27,7 @@ public class SyncNonBlocking {
 
         try {
             String result = future.get();
-            System.out.println("논 블록킹 작업 결과: " + result);
+            System.out.println("작업 결과: " + result);
         } catch (InterruptedException | ExecutionException e) {
         }
 

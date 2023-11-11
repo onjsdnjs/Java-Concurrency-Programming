@@ -17,7 +17,7 @@ public class AsyncBlocking {
         // 블록킹, 이 구문은 맨 마지막에 위치 해도 무방함
         try {
             String result = future.get();
-            System.out.println("논 블록킹 작업 결과: " + result);
+            System.out.println("블록킹 작업 결과: " + result);
         } catch (InterruptedException | ExecutionException e) {
         }
 

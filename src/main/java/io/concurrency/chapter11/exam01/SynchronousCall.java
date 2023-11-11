@@ -13,8 +13,8 @@ public class SynchronousCall {
         try {
             // 동기 실행
             syncCall2();
-            System.out.println("syncCall1 종료");
             Thread.sleep(1000); // 1초 대기
+            System.out.println("동기 실행 완료-1");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -24,8 +24,8 @@ public class SynchronousCall {
     private static void syncCall2() {
 
         try {
-            System.out.println("syncCall2 종료");
             Thread.sleep(1000); // 1초 대기
+            System.out.println("동기 실행 완료-2");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

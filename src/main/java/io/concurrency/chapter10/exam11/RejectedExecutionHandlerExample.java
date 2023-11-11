@@ -8,8 +8,8 @@ import java.util.concurrent.TimeUnit;
 public class RejectedExecutionHandlerExample {
     public static void main(String[] args) {
         int corePoolSize = 2;
-        int maxPoolSize = 4;
-        long keepAliveTime = 2;
+        int maxPoolSize = 2;
+        long keepAliveTime = 0L;
         int workQueueCapacity = 2;
 
         ThreadPoolExecutor executor = new ThreadPoolExecutor(
@@ -17,13 +17,12 @@ public class RejectedExecutionHandlerExample {
                 maxPoolSize,
                 keepAliveTime,
                 TimeUnit.SECONDS,
-                new LinkedBlockingQueue<>(workQueueCapacity));
+                new LinkedBlockingQueue<>(workQueueCapacity),
+                new MyRejectedExecutionHandler());
 
-        // Custom RejectedExecutionHandler 설정
-        executor.setRejectedExecutionHandler(new MyRejectedExecutionHandler());
 
         // 작업을 제출
-        for (int i = 1; i <= 6; i++) {
+        for (int i = 1; i <= 5; i++) {
             final int taskId = i;
             executor.execute(() -> {
                 System.out.println("Task " + taskId + " is running on thread " + Thread.currentThread().getName());
@@ -39,12 +38,14 @@ public class RejectedExecutionHandlerExample {
         executor.shutdown();
     }
 }
-class MyRejectedExecutionHandler implements RejectedExecutionHandler {
+
+class MyRejectedExecutionHandler implements RejectedExecutionHandler{
+
     @Override
     public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
-        System.out.println("Task rejected. Adding it to the queue for later execution.");
-        if (!executor.isShutdown()) {
-            // 작업을 큐에 다시 추가하여 나중에 실행
+        System.out.println("태스크가 거부되었습니다.");
+        if(!executor.isShutdown()){
+            executor.getQueue().poll();
             executor.getQueue().offer(r);
         }
     }

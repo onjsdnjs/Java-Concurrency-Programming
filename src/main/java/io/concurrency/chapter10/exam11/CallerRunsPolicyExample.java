@@ -23,7 +23,7 @@ public class CallerRunsPolicyExample {
     }
 
     private static void submitTasks(ThreadPoolExecutor executor) {
-        for (int i = 1; i <= 4; i++) {
+        for (int i = 1; i <= 5; i++) {
             final int taskId = i;
             executor.submit(() -> {
                 System.out.println("Task " + taskId + " is running on thread " + Thread.currentThread().getName());

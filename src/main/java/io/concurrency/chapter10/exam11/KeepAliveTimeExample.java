@@ -1,43 +1,36 @@
 package io.concurrency.chapter10.exam11;
 
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 public class KeepAliveTimeExample {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
+
         int corePoolSize = 2;
         int maxPoolSize = 4;
-        long keepAliveTime = 2; // 유휴 스레드의 최대 대기 시간 (초)
-        int workQueueCapacity = 2;
+        long keepAliveTime = 1L;
+        BlockingQueue<Runnable> workQueue =  new LinkedBlockingQueue<>(2);
+        int taskNum = 6;
 
-        ThreadPoolExecutor executor = new ThreadPoolExecutor(
-                corePoolSize,
-                maxPoolSize,
-                keepAliveTime,
-                TimeUnit.SECONDS,
-                new LinkedBlockingQueue<>(workQueueCapacity));
 
-        for (int i = 1; i <= 6; i++) {
+        ThreadPoolExecutor executor =
+                new ThreadPoolExecutor(corePoolSize, maxPoolSize, keepAliveTime, TimeUnit.SECONDS, workQueue);
+
+        for (int i = 0; i < taskNum; i++) {
             final int taskId = i;
-            executor.execute(() -> {
-                System.out.println("Task " + taskId + " is running on thread " + Thread.currentThread().getName());
+            executor.execute(()->{
                 try {
-                    // 스레드를 유휴 상태로 만든다
-                    Thread.sleep(3000);
+                    Thread.sleep(2000);
                 } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
+                    throw new RuntimeException(e);
                 }
+                System.out.println(Thread.currentThread().getName() + " 가 태스크" + taskId + " 를 실행하고 있습니다.");
             });
         }
 
-        // 유휴 스레드가 종료되기 위해 대기한다
-        try {
-            Thread.sleep(6000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-
+        Thread.sleep(4000);
         executor.shutdown();
     }
 }

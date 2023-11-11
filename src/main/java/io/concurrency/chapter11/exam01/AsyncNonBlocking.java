@@ -1,31 +1,34 @@
 package io.concurrency.chapter11.exam01;
 
-import java.util.concurrent.*;
-
 public class AsyncNonBlocking {
 
+    interface Callback {
+        void onComplete(int result);
+    }
+
+    // 메인 메소드
     public static void main(String[] args) {
-        ExecutorService executor = Executors.newSingleThreadExecutor();
+        // 비동기 작업 수행
+        doAsyncWork(result -> {
+            System.out.println("비동기 작업 결과: " + result);
+        });
+        System.out.println("메인 스레드는 다른 작업을 계속 수행할 수 있습니다.");
 
-        Callable<String> task = () -> {
-            Thread.sleep(2000);
-            return "Hello Java";
-        };
-        // 비동기 & 논 블록킹
-        Future<String> future = executor.submit(task);
+    }
 
-        // 메인 작업 계속 수행
-        int sum = 0;
-        for (int i = 0; i < 1000000; i++) {
-            sum = sum + i;
-        }
+    // 비동기 작업을 수행하는 메소드
+    private static void doAsyncWork(Callback callback) {
+        new Thread(() -> {
+            try {
 
-        try {
-            String result = future.get();
-            System.out.println("논블록킹 작업 결과: " + result);
-        } catch (InterruptedException | ExecutionException e) {
-        }
+                System.out.println("비동기 작업 시작");
+                Thread.sleep(2000);
+                callback.onComplete(42); // 콜백 호출
 
-        executor.shutdown();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                e.printStackTrace();
+            }
+        }).start();
     }
 }

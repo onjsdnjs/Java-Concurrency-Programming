@@ -6,11 +6,9 @@ import java.util.concurrent.Executors;
 public class FixedThreadPoolExample {
     public static void main(String[] args) {
 
-        int threadNum = 3;
-        int taskNum = 10;
-        ExecutorService executorService = Executors.newFixedThreadPool(threadNum);
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
 
-        for (int i = 1; i <= taskNum; i++) {
+        for (int i = 1; i <= 5; i++) {
             executorService.submit(() -> {
                 System.out.println("Thread : " + Thread.currentThread().getName());
             });

@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 public class PrestartThreadsExample {
     public static void main(String[] args) {
+
         int corePoolSize = 2; // 최소 스레드 수
         int maxPoolSize = 4; // 최대 스레드 수
         long keepAliveTime = 10; // 유휴 시간 (초)
@@ -25,7 +26,7 @@ public class PrestartThreadsExample {
         for (int i = 0; i < taskNum; i++) {
             final int taskId = i;
             executor.execute(() -> {
-                System.out.println("Task " + taskId + " is executing on " + Thread.currentThread().getName());
+                System.out.println(Thread.currentThread().getName() + " 가 태스크 " + taskId + " 을 실행하고 있습니다.");
             });
         }
 

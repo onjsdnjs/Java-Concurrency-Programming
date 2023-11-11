@@ -11,7 +11,7 @@ public class AsyncBlocking {
             Thread.sleep(2000);
             return "Hello Java";
         };
-        // 비동기
+        // 비동기 & 논블록킹
         Future<String> future = executor.submit(task);
 
         // 블록킹, 이 구문은 맨 마지막에 위치 해도 무방함

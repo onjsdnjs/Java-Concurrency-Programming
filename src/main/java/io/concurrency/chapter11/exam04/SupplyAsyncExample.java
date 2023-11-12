@@ -5,20 +5,18 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class SupplyAsyncExample {
-
     public static void main(String[] args) {
 
         MyService myService = new MyService();
-        CompletableFuture.supplyAsync(() -> {
 
-            List<Integer> list = myService.getData();
-            list.stream().forEach(System.out::println);
-            return  list;
+        List<Integer> result = CompletableFuture.supplyAsync(() -> {
+
+            System.out.println(Thread.currentThread().getName() + " 가 비동기 작업을 시작 합니다.");
+            return myService.getData();
 
         }).join();
 
-        System.out.println("메인 작업 종료");
-
+        result.stream().forEach(System.out::println);
     }
 
     static class MyService {

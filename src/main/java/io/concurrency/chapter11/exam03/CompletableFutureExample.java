@@ -9,6 +9,7 @@ public class CompletableFutureExample {
 
         CompletableFuture<Object> handle = CompletableFuture.supplyAsync(() -> 2)
                 .thenApplyAsync(result -> result + 3)
+//                .thenApplyAsync(result -> {throw new RuntimeException("error");})
                 .handle((result, exception) -> {
                     if (exception != null) {
                         System.out.println("예외 발생: " + exception.getMessage());

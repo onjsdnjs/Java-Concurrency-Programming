@@ -7,12 +7,12 @@ import java.util.concurrent.Executors;
 
 public class CompletableTask {
     public static void main(String[] args) {
-        ExecutorService executorService = Executors.newFixedThreadPool(2);
+
+        ExecutorService executorService = Executors.newFixedThreadPool(1);
         CompletableFuture<Integer> future = new CompletableFuture<>();
 
         executorService.submit(() -> {
-            int result = performTask();
-            future.complete(result + 10); // 결과 조작 하고 즉시 완료 시킴
+            future.complete(5); // 결과 조작 하고 즉시 완료 시킴
         });
 
         try {
@@ -24,7 +24,6 @@ public class CompletableTask {
 
         executorService.shutdown();
     }
-
     private static int performTask(){
         return 5;
     }

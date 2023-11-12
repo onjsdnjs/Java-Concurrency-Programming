@@ -3,7 +3,7 @@ package io.concurrency.chapter11.exam03;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-public class CompletableFutureExample {
+public class CompletableFutureExceptionExample {
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
 

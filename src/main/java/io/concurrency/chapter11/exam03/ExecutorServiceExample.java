@@ -13,12 +13,12 @@ public class ExecutorServiceExample {
 
         Future<Integer> future1 = executorService.submit(() -> 2);
         Future<Integer> future2 = executorService.submit(() -> {
-            int result = future1.get() + 3;
-            return result;
-//            throw new RuntimeException("error"););
+            return future1.get() + 3;
+//            throw new RuntimeException("error");
         });
 
         int result;
+
         try {
             result = future2.get();
 

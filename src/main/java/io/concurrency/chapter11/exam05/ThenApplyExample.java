@@ -7,24 +7,20 @@ public class ThenApplyExample {
 
         MyService myService = new MyService();
         CompletableFuture<Integer> asyncFuture = CompletableFuture.supplyAsync(() -> {
-                                                    try {
-                                                        Thread.sleep(1000);
-                                                    } catch (InterruptedException e) {
-                                                        Thread.currentThread().interrupt();
-                                                    }
+                                                    System.out.println("thread1:" + Thread.currentThread().getName());
                                                     return 40;
                                                 })
                                                 .thenApply(result -> {
                                                     int r = myService.getData1();
-                                                    System.out.println("thread:" + Thread.currentThread().getName());
+                                                    System.out.println("thread2:" + Thread.currentThread().getName());
                                                     return r + result;
-                                                }).thenApplyAsync(result -> {
+                                                }).thenApply(result -> {
                                                     int r = myService.getData2();
-                                                    System.out.println("thread:" + Thread.currentThread().getName());
+                                                    System.out.println("thread3:" + Thread.currentThread().getName());
                                                     return r + result;
                                                 });
 
-        int asyncResult = asyncFuture.join(); // 가공된 비동기 작업 결과를 얻음
+        int asyncResult = asyncFuture.join();
         System.out.println("final result: " + asyncResult);
     }
 
@@ -32,7 +28,7 @@ public class ThenApplyExample {
 
         public int getData1(){
             try {
-                Thread.sleep(1000);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -41,7 +37,7 @@ public class ThenApplyExample {
 
         public int getData2(){
             try {
-                Thread.sleep(1000);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

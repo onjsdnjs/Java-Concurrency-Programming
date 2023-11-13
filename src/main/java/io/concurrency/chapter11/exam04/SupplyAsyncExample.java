@@ -1,39 +1,51 @@
 package io.concurrency.chapter11.exam04;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.*;
 
 public class SupplyAsyncExample {
     public static void main(String[] args) {
 
-        MyService myService = new MyService();
+        MyService service = new MyService();
 
-        List<Integer> result = CompletableFuture.supplyAsync(() -> {
+        CompletableFuture<List<Integer>> cf = CompletableFuture.supplyAsync(() -> {
+            System.out.println(Thread.currentThread().getName() + " 가 비동기 작업을 시작합니다");
+            return service.getData();
+        });
 
-            System.out.println(Thread.currentThread().getName() + " 가 비동기 작업을 시작 합니다.");
-            return myService.getData();
+        List<Integer> result = cf.join();
+        result.stream().forEach(r->System.out.println(r));
 
-        }).join();
+        System.out.println("===============================================================================");
 
-        result.stream().forEach(System.out::println);
-    }
+        ExecutorService executorService = Executors.newFixedThreadPool(1);
+        Future<List<Integer>> future = executorService.submit(() -> {
+            System.out.println(Thread.currentThread().getName() + " 가 비동기 작업을 시작합니다");
+            return service.getData();
+        });
 
-    static class MyService {
-
-        public List<Integer> getData() {
-
-            List<Integer> result = new ArrayList<>();
-            result.add(1);
-            result.add(2);
-            result.add(3);
-
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-            return result;
+        try {
+            List<Integer> result2 = future.get();
+            result2.stream().forEach(r->System.out.println(r));
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
         }
+
+        System.out.println("메인 스레드 종료");
+    }
+}
+
+class MyService{
+
+    public List<Integer> getData(){
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return Arrays.asList(1,2,3);
     }
 }

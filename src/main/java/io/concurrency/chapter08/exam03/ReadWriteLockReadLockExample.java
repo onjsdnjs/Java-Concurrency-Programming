@@ -9,6 +9,8 @@ public class ReadWriteLockReadLockExample {
 
         ReadWriteLock lock = new ReentrantReadWriteLock();
 
+
+
         BankAccount account = new BankAccount(lock, 0);
 
         // 읽기 스레드가 잔액 조회

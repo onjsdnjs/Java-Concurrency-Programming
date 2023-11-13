@@ -1,41 +1,56 @@
 package io.concurrency.chapter11.exam06;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class ThenAcceptExample {
+
     public static void main(String[] args) {
 
         MyService myService = new MyService();
-        myService.fetchAsyncData()
-                .thenApply(result -> {
-                    System.out.println(result);
-                    return result.stream().map(i -> i * 2).toList();
-                }).thenAcceptAsync(result -> {
-                    result.stream().forEach(System.out::println);
-                }).join();
+        CompletableFuture.supplyAsync(() -> {
+                    System.out.println("thread1:" + Thread.currentThread().getName());
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    return 40;
+                })
+                .thenAccept(result -> {
+                    System.out.println("thread2:" + Thread.currentThread().getName());
+                    List<Integer> r = myService.getData1();
+                    r.forEach(System.out::println);
 
+                }).thenAcceptAsync(result -> {
+                    System.out.println("thread3:" + Thread.currentThread().getName());
+                    List<Integer> r = myService.getData2();
+                    r.forEach(System.out::println);
+
+                }).join();
     }
 
     static class MyService {
 
-        public CompletableFuture<List<Integer>> fetchAsyncData() {
-            return CompletableFuture.supplyAsync(() -> {
+        public List<Integer> getData1(){
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            return Arrays.asList(1,2,3);
+        }
 
-                List<Integer> result = new ArrayList<>();
-                result.add(1);
-                result.add(2);
-                result.add(3);
-
-                try {
-                    Thread.sleep(500); // 비동기 작업 시간 지연 시뮬레이션
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
-
-                return result;
-            });
+        public List<Integer> getData2(){
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            return Arrays.asList(4,5,6);
         }
     }
 }
+
+

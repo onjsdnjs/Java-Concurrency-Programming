@@ -10,7 +10,7 @@ public class ThenApplyExample {
         CompletableFuture<Integer> asyncFuture = CompletableFuture.supplyAsync(() -> {
                                                     System.out.println("thread1:" + Thread.currentThread().getName());
                                                     try {
-                                                        Thread.sleep(1000);
+                                                        Thread.sleep(500);
                                                     } catch (InterruptedException e) {
                                                         throw new RuntimeException(e);
                                                     }
@@ -35,7 +35,7 @@ public class ThenApplyExample {
 
         public int getData1(){
             try {
-                Thread.sleep(1000);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -44,7 +44,7 @@ public class ThenApplyExample {
 
         public int getData2(){
             try {
-                Thread.sleep(1000);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

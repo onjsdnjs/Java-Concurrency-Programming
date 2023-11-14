@@ -5,73 +5,49 @@ import java.util.concurrent.CompletableFuture;
 public class HandleExample {
     public static void main(String[] args) {
 
-        ServiceA sa = new ServiceA();
-        ServiceB sb = new ServiceB();
-
-        CompletableFuture<Integer> futureA = sa.fetchAsyncDataA()
-                .handle((resultA, exA) -> {
-                    if (exA != null) {
-                        System.err.println("ServiceA 예외 처리: " + exA.getMessage());
+        CompletableFuture<Integer> cf1 = CompletableFuture.supplyAsync(() -> {
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+                    return 10;
+                })
+                .handle((r, e) -> {
+                    if (e != null) {
+                        System.err.println("비동기 예외 처리 1: " + e.getMessage());
                         return -1; // 예외 발생 시 기본값 반환
                     }
-                    return resultA;
+                    return r;
                 });
 
-        CompletableFuture<Integer> futureB = sb.fetchAsyncDataB()
-                .handle((resultB, exB) -> {
-                    if (exB != null) {
-                        System.err.println("ServiceB 예외 처리: " + exB.getMessage());
+        CompletableFuture<Integer> cf2 = CompletableFuture.supplyAsync(() -> {
+                    try {
+                        Thread.sleep(500);
+//                        throw new RuntimeException("error");
+
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+                    return 20;
+                })
+                .handle((r, e) -> {
+                    if (e != null) {
+                        System.err.println("비동기 예외 처리 2: " + e.getMessage());
                         return -1; // 예외 발생 시 기본값 반환
                     }
-                    return resultB;
+                    return r;
                 });
 
-        CompletableFuture<Integer> combinedResult = futureA.thenCombine(futureB, (resultA, resultB) -> {
-            if (resultA == -1 || resultB == -1) {
+        CompletableFuture<Integer> cf3 = cf1.thenCombine(cf2, (r1, r2) -> {
+            if (r1 == -1 || r2 == -1) {
                 // 둘 중 하나라도 예외가 발생하면 예외 처리
                 return -1;
             }
-            // 두 결과를 조합하여 복잡한 작업 수행 (예시로 간단한 덧셈)
-            return resultA + resultB;
+            // 두 결과를 조합하여 복잡한 작업 수행
+            return r1 + r2;
         });
 
-        System.out.println("result: " + combinedResult.join());
-    }
-
-    static class ServiceA {
-
-        public CompletableFuture<Integer> fetchAsyncDataA() {
-            // 비동기 작업 시뮬레이션
-            return CompletableFuture.supplyAsync(() -> {
-                try {
-                    Thread.sleep(500);
-                    throw new RuntimeException("error");
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
-                return 10;
-            }).exceptionally(ex -> {
-                System.err.println("ServiceA 예외 처리: " + ex.getMessage());
-                return -1; // 예외 발생 시 기본값 반환
-            });
-        }
-    }
-
-    static class ServiceB {
-
-        public CompletableFuture<Integer> fetchAsyncDataB() {
-            // 비동기 작업 시뮬레이션
-            return CompletableFuture.supplyAsync(() -> {
-                try {
-                    Thread.sleep(400);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
-                return 20;
-            }).exceptionally(ex -> {
-                System.err.println("ServiceB 예외 처리: " + ex.getMessage());
-                return -1; // 예외 발생 시 기본값 반환
-            });
-        }
+        System.out.println("result: " + cf3.join());
     }
 }

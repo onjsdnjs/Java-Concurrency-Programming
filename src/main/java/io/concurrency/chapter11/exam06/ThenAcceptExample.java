@@ -20,11 +20,13 @@ public class ThenAcceptExample {
                 })
                 .thenAccept(result -> {
                     System.out.println("thread2:" + Thread.currentThread().getName());
+                    System.out.println("결과: " + result);
                     List<Integer> r = myService.getData1();
                     r.forEach(System.out::println);
 
                 }).thenAcceptAsync(result -> {
                     System.out.println("thread3:" + Thread.currentThread().getName());
+                    System.out.println("결과: " + result);
                     List<Integer> r = myService.getData2();
                     r.forEach(System.out::println);
 

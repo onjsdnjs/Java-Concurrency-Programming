@@ -38,7 +38,6 @@ public class ThenRunExample {
         System.out.println("모든 작업 완료");
 
     }
-
     static class MyService {
 
         public List<Integer> getData1(){

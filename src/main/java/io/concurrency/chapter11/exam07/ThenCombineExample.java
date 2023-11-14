@@ -7,8 +7,8 @@ public class ThenCombineExample {
 
         MyService myService = new MyService();
 
-        CompletableFuture<String> cf1 = myService.fetchAsyncData(); // 비동기 작업 1
-        CompletableFuture<String>  cf2 = myService.fetchAsyncData2();
+        CompletableFuture<String> cf1 = myService.getData1(); // 비동기 작업 1
+        CompletableFuture<String>  cf2 = myService.getData2();
 
         CompletableFuture<String> cf3 = cf1.thenCombine(cf2, (r1, r2) -> r1 + r2);
 
@@ -19,7 +19,7 @@ public class ThenCombineExample {
 
     static class MyService {
 
-        public CompletableFuture<String> fetchAsyncData() {
+        public CompletableFuture<String> getData1() {
             return CompletableFuture.supplyAsync(() -> {
                 try {
                     Thread.sleep(500); // 2초 동안 대기
@@ -30,7 +30,7 @@ public class ThenCombineExample {
             });
         }
 
-        public CompletableFuture<String> fetchAsyncData2() {
+        public CompletableFuture<String> getData2() {
             return CompletableFuture.supplyAsync(() -> {
                 try {
                     Thread.sleep(500); // 2초 동안 대기
@@ -39,10 +39,6 @@ public class ThenCombineExample {
                 }
                 return "World";
             });
-        }
-
-        public int performData(int input) {
-            return input + 10;
         }
     }
 }

@@ -7,25 +7,24 @@ import java.util.concurrent.TimeoutException;
 public class isDoneExample {
 
     public static void main(String[] args) throws InterruptedException, ExecutionException, TimeoutException {
-        CompletableFuture<Integer> firstFuture = CompletableFuture.supplyAsync(() -> {
+
+        CompletableFuture<Integer> cf1 = CompletableFuture.supplyAsync(() -> {
             try {
                 Thread.sleep(1000);
-                return 42;
             } catch (InterruptedException e) {
-                return -1;
             }
+            return 42;
         });
 
-        CompletableFuture<Integer> secondFuture = firstFuture.thenApplyAsync(result -> {
+        CompletableFuture<Integer> cf2 = cf1.thenApplyAsync(result -> {
             try {
                 Thread.sleep(1000);
-                return result * 2;
             } catch (InterruptedException e) {
-                return -1;
             }
+            return result * 2;
         });
 
-        while (!firstFuture.isDone() || !secondFuture.isDone()) {
+        while (!cf1.isDone() || !cf2.isDone()) {
             System.out.println("작업이 아직 완료되지 않았습니다.");
             try {
                 Thread.sleep(1000);
@@ -35,8 +34,8 @@ public class isDoneExample {
         }
 
         // 결과 가져오기
-        int firstResult = firstFuture.get();
-        int secondResult = secondFuture.get();
+        int firstResult = cf1.get();
+        int secondResult = cf2.get();
 
         System.out.println("첫 번째 결과: " + firstResult);
         System.out.println("두 번째 결과: " + secondResult);

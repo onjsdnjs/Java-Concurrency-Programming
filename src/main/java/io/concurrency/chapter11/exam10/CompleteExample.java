@@ -7,8 +7,10 @@ import java.util.concurrent.TimeUnit;
 
 public class CompleteExample {
     public static void main(String[] args) {
+
         MyService myService = new MyService();
-        CompletableFuture<Integer> future = myService.performAsyncTask();
+
+        CompletableFuture<Integer> future = myService.performTask();
 
         future.thenAccept(result -> {
             System.out.println("비동기 작업 결과: " + result);
@@ -17,15 +19,14 @@ public class CompleteExample {
 
     static class MyService {
 
-        public CompletableFuture<Integer> performAsyncTask() {
+        public CompletableFuture<Integer> performTask() {
 
             ExecutorService executorService = Executors.newSingleThreadExecutor();
-
             CompletableFuture<Integer> future = new CompletableFuture<>();
 
             executorService.submit(() -> {
                 try {
-                    TimeUnit.SECONDS.sleep(2); // 2초 대기
+                    TimeUnit.SECONDS.sleep(2);
                     int result = 42;
                     future.complete(result); // 결과를 완료시킴
                 } catch (InterruptedException e) {}

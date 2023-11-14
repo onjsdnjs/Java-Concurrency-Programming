@@ -12,11 +12,10 @@ public class HandleExample {
                         Thread.currentThread().interrupt();
                     }
                     return 10;
-                })
-                .handle((r, e) -> {
-                    if (e != null) {
-                        System.err.println("비동기 예외 처리 1: " + e.getMessage());
-                        return -1; // 예외 발생 시 기본값 반환
+                }).handle((r, e) ->{
+                    if(e !=null){
+                        System.out.println("비동기 예외처리 1: " + e.getMessage());
+                        return -1;
                     }
                     return r;
                 });
@@ -24,20 +23,20 @@ public class HandleExample {
         CompletableFuture<Integer> cf2 = CompletableFuture.supplyAsync(() -> {
                     try {
                         Thread.sleep(500);
-//                        throw new RuntimeException("error");
+                        throw new RuntimeException("error");
 
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
                     }
                     return 20;
-                })
-                .handle((r, e) -> {
-                    if (e != null) {
-                        System.err.println("비동기 예외 처리 2: " + e.getMessage());
-                        return -1; // 예외 발생 시 기본값 반환
+                }).handle((r, e) ->{
+                    if(e !=null){
+                        System.out.println("비동기 예외처리 2: " + e.getMessage());
+                        return -1;
                     }
                     return r;
                 });
+
 
         CompletableFuture<Integer> cf3 = cf1.thenCombine(cf2, (r1, r2) -> {
             if (r1 == -1 || r2 == -1) {

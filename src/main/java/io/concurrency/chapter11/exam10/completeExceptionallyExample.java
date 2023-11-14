@@ -5,9 +5,8 @@ import java.util.concurrent.CompletableFuture;
 public class completeExceptionallyExample {
     public static void main(String[] args) {
 
-        CompletableFuture<String> cf1 = CompletableFuture.supplyAsync(() -> "Hello World");
+        CompletableFuture<String> cf1 = new CompletableFuture<>();
         getData(cf1);
-
         CompletableFuture<String> cf2 = cf1
                 .thenApply(result -> {
                     System.out.println(result);
@@ -21,15 +20,17 @@ public class completeExceptionallyExample {
                     return r;
                 });
 
-
         System.out.println("result: " + cf2.join());
     }
 
-    static void getData(CompletableFuture<String> future) {
+    private static void getData(CompletableFuture<String> cf1) {
         try {
-            throw new RuntimeException("error");
-        } catch (RuntimeException e) {
-            future.completeExceptionally(e);
+            System.out.println("비동기 작업 수행중");
+            Thread.sleep(100);
+            throw new IllegalArgumentException("error");
+        } catch (Exception e) {
+            cf1.completeExceptionally(e);
         }
+        cf1.complete("Hello World");
     }
 }

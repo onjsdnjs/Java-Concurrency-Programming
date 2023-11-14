@@ -3,36 +3,36 @@ package io.concurrency.chapter11.exam10;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public class CompleteExample {
     public static void main(String[] args) {
 
-        MyService myService = new MyService();
+        MyService service = new MyService();
+        CompletableFuture<Integer> cf = service.performTask();
+        cf.thenApply(r -> r + 20);
 
-        CompletableFuture<Integer> future = myService.performTask();
+        System.out.println("result: " + cf.join());
+        System.out.println("메인 스레드 종료");
 
-        future.thenAccept(result -> {
-            System.out.println("비동기 작업 결과: " + result);
-        });
     }
 
-    static class MyService {
+    static class MyService{
 
-        public CompletableFuture<Integer> performTask() {
+        public CompletableFuture<Integer> performTask(){
+
+            CompletableFuture<Integer> cf = new CompletableFuture<>();
 
             ExecutorService executorService = Executors.newSingleThreadExecutor();
-            CompletableFuture<Integer> future = new CompletableFuture<>();
+            executorService.submit(()->{
 
-            executorService.submit(() -> {
                 try {
-                    TimeUnit.SECONDS.sleep(2);
-                    int result = 42;
-                    future.complete(result); // 결과를 완료시킴
-                } catch (InterruptedException e) {}
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                cf.complete(40);
             });
-
-            return future;
+            return cf;
         }
     }
 }

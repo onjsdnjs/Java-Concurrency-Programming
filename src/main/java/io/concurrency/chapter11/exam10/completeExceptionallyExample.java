@@ -23,14 +23,14 @@ public class completeExceptionallyExample {
         System.out.println("result: " + cf2.join());
     }
 
-    private static void getData(CompletableFuture<String> cf1) {
+    private static void getData(CompletableFuture cf) {
         try {
-            System.out.println("비동기 작업 수행중");
-            Thread.sleep(100);
-            throw new IllegalArgumentException("error");
+            System.out.println("비동기 작업 수행 중..");
+            Thread.sleep(500);
+//            throw new IllegalArgumentException("error");
         } catch (Exception e) {
-            cf1.completeExceptionally(e);
+            cf.completeExceptionally(e);
         }
-        cf1.complete("Hello World");
+        cf.complete("Hello World");
     }
 }

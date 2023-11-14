@@ -10,8 +10,8 @@ public class isCompletedExceptionallyAndIsCancelledExample {
 
         CompletableFuture<Integer> cf1 = CompletableFuture.supplyAsync(() -> 10);
         CompletableFuture<Integer> cf2 = CompletableFuture.supplyAsync(() -> {
-            return 20;
-//            throw new RuntimeException("error");
+//            return 20;
+            throw new RuntimeException("error");
         });
 
 //        cf2.cancel(true);

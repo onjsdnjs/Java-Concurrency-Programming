@@ -6,14 +6,15 @@ import java.util.concurrent.TimeUnit;
 public class CompleteOnTimeoutExample {
     public static void main(String[] args) {
 
-        getData().completeOnTimeout("Hello Java", 1, TimeUnit.SECONDS)
-        .thenAccept(result -> {
-            System.out.println("결과: " + result);
-        }).join();
+        getData().completeOnTimeout("Hello Java", 2, TimeUnit.SECONDS)
+                .thenAccept(r -> {
+                    System.out.println("r = " + r);
+                }).join();
     }
 
     private static CompletableFuture<String> getData() {
-        return CompletableFuture.supplyAsync(() -> {
+
+        return CompletableFuture.supplyAsync(()->{
             try {
                 Thread.sleep(2000);
                 return "Hello World";

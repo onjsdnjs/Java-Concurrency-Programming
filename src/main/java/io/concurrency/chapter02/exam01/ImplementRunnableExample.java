@@ -9,8 +9,10 @@ public class ImplementRunnableExample {
     }
 }
 
-class MyRunnable implements Runnable {
+class MyRunnable implements Runnable{
+
+    @Override
     public void run() {
-        System.out.println("스레드 실행 중");
+        System.out.println(Thread.currentThread().getName() + ": 스레드 실행 중");
     }
 }

@@ -8,7 +8,6 @@ public class ExtendThreadExample {
 
             MyThread thread2 = new MyThread();
             thread2.start();
-
 //            new MyThread().start();
         }
     }

@@ -2,30 +2,40 @@ package io.concurrency.chapter02.exam02;
 
 public class MultiThreadAppTerminatedExample {
     public static void main(String[] args) {
-        System.out.println("프로그램 시작");
 
-        // 멀티스레드 실행
         for (int i = 0; i < 3; i++) {
-            Thread thread = new Thread(new MyRunnable(i));
+            Thread thread = new Thread(new ThreadStackExample.MyRunnable(i));
             thread.start();
         }
 
         System.out.println("메인 스레드 종료");
-    }
 
-    private static class MyRunnable implements Runnable {
-        private int threadId;
+    }
+    static class MyRunnable implements Runnable{
+
+        private final int threadId;
 
         public MyRunnable(int threadId) {
+
             this.threadId = threadId;
         }
 
         @Override
         public void run() {
-            for (int i = 0; i < 5; i++) {
-                System.out.println("스레드 " + threadId + " 작업 진행: " + i);
-            }
-            System.out.println("스레드 " + threadId + " 종료");
+            System.out.println(Thread.currentThread().getName() + ": 스레드 실행 중...");
+            firstMethod(threadId);
+        }
+
+        private void firstMethod(int threadId) {
+
+            int localValue = threadId + 100;
+            secondMethod(localValue);
+
+        }
+
+        private void secondMethod(int localValue) {
+            String objectReference = threadId + ": Hello World";
+            System.out.println(Thread.currentThread().getName() + " : 스레드 ID : " + threadId + ", Value:" + localValue);
         }
     }
 }

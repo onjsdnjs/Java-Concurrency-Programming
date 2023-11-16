@@ -5,7 +5,7 @@ public class AnonymousThreadClassExample {
 
         Thread thread = new Thread(){
             public void run() {
-                System.out.println("무명 Thread 클래스에 의한 스레드 실행 중");
+                System.out.println("스레드 실행 중");
             }
         };
 

@@ -11,6 +11,6 @@ public class ImplementRunnableExample {
 
 class MyRunnable implements Runnable {
     public void run() {
-        System.out.println("Runnable 구현에 의한 스레드 실행 중");
+        System.out.println("스레드 실행 중");
     }
 }

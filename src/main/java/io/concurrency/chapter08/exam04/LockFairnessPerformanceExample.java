@@ -3,7 +3,7 @@ package io.concurrency.chapter08.exam04;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class LockFairnessPerformanceExample {
+public class  LockFairnessPerformanceExample {
     private static final int THREAD_COUNT = 4;
     private static final int ITERATIONS = 1000_000;
     private static final Lock fairLock = new ReentrantLock(true);

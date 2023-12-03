@@ -15,7 +15,8 @@ public class CustomForkJoinPoolExample {
         CustomRecursiveTask task = new CustomRecursiveTask(array, 0, array.length);
         long result = pool.invoke(task);
 
-        System.out.println("총 합계 " + result);
-        System.out.println("풀의 수행 정보 " + pool);
+        System.out.println("result = " + result);
+        System.out.println("pool = " + pool);
+        System.out.println("stealing = " + pool.getStealCount());
     }
 }

@@ -18,5 +18,7 @@ public class CustomForkJoinPoolExample {
         System.out.println("result = " + result);
         System.out.println("pool = " + pool);
         System.out.println("stealing = " + pool.getStealCount());
+
+        pool.shutdown();
     }
 }
